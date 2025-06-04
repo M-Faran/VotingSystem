@@ -1,66 +1,76 @@
-## Foundry
+# 🗳️ Decentralized Voting System
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+A fully on-chain decentralized voting system built with Solidity. This system enables transparent, tamper-proof elections where only whitelisted voters can participate. It supports multiple elections, each managed by its own admin.
 
-Foundry consists of:
+---
 
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+## 📦 Features
 
-## Documentation
+- ✅ Create elections with custom candidates
+- ✅ Set election start and end time using UNIX timestamps
+- ✅ Whitelist specific voter addresses per election
+- ✅ Cast votes during the voting period
+- ✅ Prevent double voting and unauthorized access
+- ✅ View all candidate details and vote counts
+- ✅ Admin-only functions to manage elections and candidates
 
-https://book.getfoundry.sh/
+---
 
-## Usage
+## 🧠 Smart Contract Overview
 
-### Build
+**Contract:** `VotingSystem.sol`
 
-```shell
-$ forge build
-```
+### 🏗 Structures
 
-### Test
+- `Candidate`: Stores `name` and `voteCount`
+- `Election`: Stores admin address, timings, candidates, whitelist status, and voting status
 
-```shell
-$ forge test
-```
+### 🔐 Modifiers
 
-### Format
+- `onlyElectionAdmin`: Restricts functions to election admin
+- `duringVoting`: Ensures function runs only during the active election time
 
-```shell
-$ forge fmt
-```
+---
 
-### Gas Snapshots
+## 🧪 How to Test (Using Remix)
 
-```shell
-$ forge snapshot
-```
+1. **Open** [Remix IDE](https://remix.ethereum.org)
+2. **Create** a new file: `VotingSystem.sol`, and paste the contract code.
+3. **Compile** the contract using Solidity 0.8.x compiler.
+4. **Deploy** the contract using "Remix VM (London)" environment.
 
-### Anvil
+### 🔧 Common Test Cases
 
-```shell
-$ anvil
-```
+#### ➕ Create an Election
+- Use `createElection(["Alice", "Bob"], startTimestamp, endTimestamp)`
+- Replace timestamps with valid [UNIX time](https://www.unixtimestamp.com/)
 
-### Deploy
+#### ✅ Whitelist Voters
+- Call `whitelistVoters(electionId, ["0xYourAddressHere"])`
 
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
+#### 🗳 Cast a Vote
+- Call `vote(electionId, candidateId)` from a whitelisted address during the election period
 
-### Cast
+#### 👀 View Results
+- Use `getAllCandidates(electionId)` to see vote counts
 
-```shell
-$ cast <subcommand>
-```
+---
 
-### Help
+## 🛠 Tech Stack
 
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+- **Solidity** - Smart contract language
+- **Remix IDE** - For compiling, deploying, and testing
+- **Ethers.js + HTML UI** - To integrate a frontend
+
+---
+
+## 🕒 Time Format
+
+All election start and end times are stored as **UNIX timestamps** for compatibility with the blockchain. You can use online converters like [EpochConverter](https://www.epochconverter.com/) to generate readable times.
+
+---
+
+## ✅ License
+
+This project is licensed under the MIT License.
+
