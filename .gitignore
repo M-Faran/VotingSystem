@@ -2,6 +2,8 @@
 cache/
 out/
 
+voting-ui/
+
 # Ignores development broadcast logs
 !/broadcast
 /broadcast/*/31337/
